@@ -1,8 +1,8 @@
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const { Client, GatewayIntentBits, SlashCommandBuilder, REST, Routes } = require("discord.js");
 // =============================================
 // CONFIG - fetched from your BotForge Panel
 // =============================================
-const BOT_TOKEN = "";
 const CLIENT_ID = "1494370637777473748"; // From Discord Dev Portal
 const GUILD_ID = "1481739027488182354";
 const PANEL_API = "https://api.base44.com/api/apps/preview--evasive-discord-command-hub/entities/BotCommand";
@@ -84,4 +84,4 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-client.login(BOT_TOKEN);
+client.login(process.env.TOKEN);
