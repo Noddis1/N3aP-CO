@@ -11,10 +11,21 @@ const PANEL_API = "https://api.base44.com/api/apps/preview--evasive-discord-comm
 // FETCH COMMANDS FROM BOTFORGE PANEL
 // =============================================
 async function fetchCommands() {
-  const res = await fetch(PANEL_API, {
-    headers: { "Content-Type": "application/json" }
-  });
-  const data = await res.json();
+  const res = await fetch(PANEL_API);
+
+  if (!res.ok) {
+    console.log("API ERROR:", await res.text());
+    return [];
+  }
+
+  let data;
+  try {
+    data = await res.json();
+  } catch (err) {
+    console.log("NOT JSON:", await res.text());
+    return [];
+  }
+
   return data.filter(cmd => cmd.is_enabled !== false);
 }
 
@@ -22,7 +33,7 @@ async function fetchCommands() {
 // REGISTER SLASH COMMANDS WITH DISCORD
 // =============================================
 async function registerSlashCommands(commands) {
-  const rest = new REST().setToken(BOT_TOKEN);
+  const rest = new REST().setToken(process.env.TOKEN);
   const slashCmds = commands
     .filter(cmd => cmd.command_type === "slash" || cmd.command_type === "both")
     .map(cmd => new SlashCommandBuilder()
