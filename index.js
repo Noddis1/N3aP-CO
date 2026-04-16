@@ -11,7 +11,12 @@ const PANEL_API = "https://api.base44.com/api/apps/preview--evasive-discord-comm
 // FETCH COMMANDS FROM BOTFORGE PANEL
 // =============================================
 async function fetchCommands() {
-  const res = await fetch(PANEL_API);
+  const res = await fetch(PANEL_API, {
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer botforge2024"
+  }
+});
 
   if (!res.ok) {
     console.log("API ERROR:", await res.text());
